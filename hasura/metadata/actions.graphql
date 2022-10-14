@@ -1,4 +1,12 @@
 type Mutation {
+  addPlayer (
+    name: String!
+    country: String!
+  ): addPlayerOutput
+}
+
+
+type Mutation {
   loginUser (
     username: String!
     password: String!
@@ -23,5 +31,9 @@ type registerUserOutput {
 
 type loginUserOutput {
   accessToken : String!
+}
+
+type addPlayerOutput {
+  name : String!
 }
 

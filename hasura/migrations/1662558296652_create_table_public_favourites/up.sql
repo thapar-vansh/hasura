@@ -1,0 +1,1 @@
+CREATE TABLE "public"."favourites"("id" serial NOT NULL, "user_id" integer NOT NULL, "player_id" integer NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE cascade ON DELETE cascade);

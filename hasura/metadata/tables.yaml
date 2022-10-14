@@ -1,13 +1,112 @@
 - table:
     schema: public
-    name: players
+    name: favourites
+  object_relationships:
+  - name: user_fav
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        _and:
+        - _exists:
+            _where:
+              user_type:
+                value:
+                  _eq: x-hasura-user-type
+            _table:
+              schema: public
+              name: users
+        - user_id:
+            _eq: x-hasura-user-id
+      columns:
+      - id
+      - player_id
+      - user_id
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - player_id
+      filter:
+        _and:
+        - _exists:
+            _where:
+              user_type:
+                value:
+                  _eq: PRO
+            _table:
+              schema: public
+              name: users
+        - user_id:
+            _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - player_id
+      filter:
+        _and:
+        - _exists:
+            _where:
+              user_type:
+                value:
+                  _eq: PRO
+            _table:
+              schema: public
+              name: users
+        - user_id:
+            _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _and:
+        - _exists:
+            _where:
+              user_type:
+                value:
+                  _eq: PRO
+            _table:
+              schema: public
+              name: users
+        - user_id:
+            _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: player
 - table:
     schema: public
     name: user_type
   is_enum: true
+  array_relationships:
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: type
+        table:
+          schema: public
+          name: users
 - table:
     schema: public
     name: users
+  object_relationships:
+  - name: user_type
+    using:
+      foreign_key_constraint_on: type
+  array_relationships:
+  - name: favourites
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: favourites
   select_permissions:
   - role: user
     permission:

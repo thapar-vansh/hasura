@@ -1,15 +1,23 @@
 actions:
+- name: addPlayer
+  definition:
+    kind: synchronous
+    handler: http://host.docker.internal:3000/player
+  permissions:
+  - role: user
 - name: loginUser
   definition:
     kind: synchronous
     handler: http://host.docker.internal:3000/user/login
   permissions:
+  - role: anonymous
   - role: user
 - name: registerUser
   definition:
     kind: synchronous
     handler: http://host.docker.internal:3000/user/register
   permissions:
+  - role: anonymous
   - role: user
 custom_types:
   enums: []
@@ -17,4 +25,5 @@ custom_types:
   objects:
   - name: registerUserOutput
   - name: loginUserOutput
+  - name: addPlayerOutput
   scalars: []
